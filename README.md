@@ -3,6 +3,7 @@
 > **Mata Kuliah:** Pengolahan Bahasa Alami (PBA) — 2026
 > **Tim:** Crazy Rich Team
 > **Dataset:** [PRDECT-ID](https://www.kaggle.com/datasets/octopusfish/prdect-id-indonesian-e-commerce-product-reviews) — Indonesian E-Commerce Product Reviews Dataset
+> **Live App (Hugging Face):** [Hash-SD/analisis-sentimen-ecommerce](https://huggingface.co/spaces/Hash-SD/analisis-sentimen-ecommerce)
 
 ---
 

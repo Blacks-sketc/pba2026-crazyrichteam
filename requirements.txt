@@ -23,7 +23,7 @@ nltk>=3.8.0                # Tokenisasi & utilitas NLP umum
 emoji>=2.0.0               # Parsing & demojize emoji
 
 # ── Machine Learning ──────────────────────────────────────────────────────────
-scikit-learn>=1.2.0        # Model klasifikasi (Ridge, LinearSVC, NB, dsb.)
+scikit-learn==1.7.0        # Model klasifikasi (Ridge, LinearSVC, NB, dsb.)
 joblib>=1.2.0              # Simpan & muat model .pkl
 
 # ── Gradio — Web App / HuggingFace Spaces ────────────────────────────────────
