@@ -22,6 +22,13 @@ PySastrawi>=1.2.0          # Stemming & stopword removal Bahasa Indonesia
 nltk>=3.8.0                # Tokenisasi & utilitas NLP umum
 emoji>=2.0.0               # Parsing & demojize emoji
 
+# ── Machine Learning ──────────────────────────────────────────────────────────
+scikit-learn>=1.2.0        # Model klasifikasi (Ridge, LinearSVC, NB, dsb.)
+joblib>=1.2.0              # Simpan & muat model .pkl
+
+# ── Gradio — Web App / HuggingFace Spaces ────────────────────────────────────
+gradio>=4.0.0              # UI interaktif untuk demo model NLP
+
 # ── Jupyter Notebook ──────────────────────────────────────────────────────────
 jupyter>=1.0.0
 notebook>=6.5.0
@@ -31,8 +38,7 @@ ipython>=8.0.0
 # ── Progress bar ──────────────────────────────────────────────────────────────
 tqdm>=4.64.0               # Progress bar untuk batch_clean()
 
-# ── Opsional: modeling (Checkpoint 3+) ────────────────────────────────────────
-# scikit-learn>=1.2.0
+# ── Opsional: modeling lanjutan ───────────────────────────────────────────────
 # imbalanced-learn>=0.10.0   # SMOTE untuk kelas imbalanced
 # transformers>=4.30.0       # IndoBERT / mBERT
 # torch>=2.0.0

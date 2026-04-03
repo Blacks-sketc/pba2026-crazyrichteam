@@ -1,3 +1,16 @@
+---
+title: Analisis Sentimen dan Emosi Ulasan E-Commerce Indonesia
+emoji: 🛒
+colorFrom: green
+colorTo: blue
+sdk: gradio
+sdk_version: 5.20.1
+python_version: "3.10"
+app_file: app.py
+pinned: false
+license: mit
+---
+
 # 🛍️ Analisis Sentimen & Emosi Ulasan E-Commerce Bahasa Indonesia
 
 > **Mata Kuliah:** Pengolahan Bahasa Alami (PBA) — 2026
@@ -6,7 +19,7 @@
 
 ---
 
-## 👥 Anggota Kelompok
+## 👥 Anggota Kelompok 7
 
 | No | Nama | NIM |
 |----|------|-----|
@@ -14,12 +27,14 @@
 | 2  | Ahmad Rizqi       | 122450138 |
 | 3  | Ibrahim Al-kahfi  | 122450100 |
 
+> *Proyek ini dikembangkan dengan dibantu oleh Claude dan Gemini.*
+
 ---
 
 ## 🎯 Deskripsi Proyek
 
-Proyek ini membangun pipeline NLP end-to-end untuk menganalisis **sentimen** (Positif/Negatif)
-dan **emosi** (Happy, Sadness, Fear, Love, Anger) dari ulasan produk e-commerce berbahasa
+Proyek ini membangun pipeline NLP end-to-end untuk menganalisis **sentimen** (Positif / Negatif)
+dan **emosi** (Bahagia, Sedih, Takut, Cinta, Marah) dari ulasan produk e-commerce berbahasa
 Indonesia menggunakan dataset PRDECT-ID (5.400 ulasan, 29 kategori produk).
 
 ---
@@ -32,7 +47,8 @@ Proyek ini mengikuti prinsip **separation of concerns**:
 |------|----------------|
 | `src/preprocessing.py` | **Modul Python murni** — semua logika cleaning, normalisasi slang, stemming |
 | `src/__init__.py` | Package initializer — ekspor fungsi publik |
-| `notebooks/01_eda_preprocessing.ipynb` | **Notebook** — EDA, visualisasi, dan *memanggil* modul `src` |
+| `notebooks/01_eda_preprocessing.ipynb` | **Notebook** — EDA, visualisasi |
+| `notebooks/02_pycaret_automl.ipynb` | **Notebook** — AutoML untuk klasifikasi model |
 
 > ⚠️ **Aturan utama:** Fungsi `clean_text()` dan `batch_clean()` **TIDAK** ditulis di dalam
 > notebook. Notebook hanya mengimpor dan mengeksekusi modul tersebut:
@@ -47,20 +63,26 @@ Proyek ini mengikuti prinsip **separation of concerns**:
 ```
 pba2026-crazyrichteam/
 │
-├── 📂 src/                                ← Package preprocessing (Commit 2)
+├── 📂 src/                                ← Package preprocessing
 │   ├── __init__.py                        ← Package initializer & public exports
 │   └── preprocessing.py                  ← Modul utama: clean_text(), batch_clean()
 │
-├── 📂 notebooks/                          ← Jupyter Notebooks (Commit 1 & 3)
-│   └── 01_eda_preprocessing.ipynb        ← EDA + eksekusi preprocessing
+├── 📂 notebooks/                          ← Jupyter Notebooks
+│   ├── 01_eda_preprocessing.ipynb        ← EDA + eksekusi preprocessing
+│   └── 02_pycaret_automl.ipynb           ← Skrip notebook melatih model
+│   
+├── 📂 models/                             ← Model terlatih (di-generate notebook 02)
+│   ├── best_ml_model.pkl                 ← Model sentimen terbaik + TF-IDF
+│   ├── best_emotion_model.pkl            ← Model emosi terbaik + TF-IDF
+│   └── tfidf_vectorizer.pkl              ← TF-IDF vectorizer
 │
 ├── 📂 data/
 │   ├── clean/
 │   │   └── cleaned_dataset.csv           ← Output preprocessing (di-generate notebook)
 │   ├── figures/                          ← Plot EDA tersimpan (di-generate notebook)
-│   └── raw/                              ← Tempat dataset mentah (opsional)
+│   └── PRDECT-ID Dataset.csv             ← Dataset mentah (separator titik koma `;`)
 │
-├── PRDECT-ID Dataset.csv                 ← Dataset mentah (separator titik koma `;`)
+├── app.py                                ← 🚀 Gradio App
 ├── requirements.txt                      ← Daftar dependensi Python
 ├── .gitignore
 └── README.md
@@ -76,8 +98,8 @@ pba2026-crazyrichteam/
 | Kategori produk | 29 kategori |
 | Separator CSV | `;` (titik koma) |
 | Encoding | UTF-8 |
-| Label Sentimen | `Positive` (2.578) · `Negative` (2.820) |
-| Label Emosi | `Happy` · `Sadness` · `Fear` · `Love` · `Anger` |
+| Label Sentimen | `Positif` (2.578) · `Negatif` (2.820) |
+| Label Emosi | `Bahagia` · `Sedih` · `Takut` · `Cinta` · `Marah` |
 | Kolom teks utama | `Customer Review` |
 
 ---
@@ -91,6 +113,44 @@ pba2026-crazyrichteam/
 | 1 | `feat(eda): add distribution, wordcloud, ngram plots` | `notebooks/01_eda_preprocessing.ipynb` | ✅ | Load data mentah, plot distribusi label, WordCloud, n-gram, analisis emoji |
 | 2 | `feat(preprocessing): add clean_text and batch_clean module` | `src/preprocessing.py`, `src/__init__.py` | ✅ | Modul Python 14-step pipeline, kamus slang 140+ entri, singleton Sastrawi |
 | 3 | `feat(preprocessing): apply module and export cleaned_dataset.csv` | `notebooks/01_eda_preprocessing.ipynb`, `data/clean/` | ✅ | Import modul, sanity check, batch_clean() seluruh DataFrame, export CSV |
+
+---
+
+## 🚀 Gradio App — Demo Interaktif
+
+File `app.py` di root proyek adalah aplikasi Gradio siap deploy ke **Hugging Face Spaces**.
+
+### Fitur Aplikasi
+
+| Fitur | Detail |
+|-------|--------|
+| **Input** | Teks ulasan produk e-commerce bahasa Indonesia |
+| **Output 1** | Sentimen: `Positif` / `Negatif` + confidence score |
+| **Output 2** | Emosi: `Bahagia` / `Sedih` / `Takut` / `Cinta` / `Marah` + confidence score |
+| **Preprocessing** | Pipeline 14-langkah (sama persis dengan training) |
+| **Model Sentimen** | Ridge Classifier + TF-IDF (F1-macro ≈ 0.91, AUC ≈ 0.96) |
+| **Model Emosi** | Complement NB + TF-IDF |
+| **Theme** | Gradio Soft |
+
+### Cara Menjalankan Lokal
+
+```bash
+# 1. Pastikan model sudah di-generate (jalankan notebook di folder notebooks/ dulu)
+
+# 2. Jalankan Gradio app
+python app.py
+```
+
+App akan berjalan di `http://localhost:7862`.
+
+### Contoh Ulasan yang Bisa Dicoba
+
+| Ulasan | Prediksi |
+|--------|----------|
+| `"Barang bagus, penjual ramah, pengiriman cepat!"` | Positive / Happy |
+| `"Kecewa, barang rusak dan tidak sesuai deskripsi."` | Negative / Sadness |
+| `"Takut beli lagi, merasa ditipu penjual."` | Negative / Fear |
+| `"Alhamdulillah, produk ori sesuai gambar. Sangat puas!"` | Positive / Happy |
 
 ---
 
@@ -127,14 +187,21 @@ pip install -r requirements.txt
 python -c "import nltk; nltk.download('punkt'); nltk.download('punkt_tab'); nltk.download('stopwords')"
 ```
 
-### 5. Jalankan Notebook
+### 5. Jalankan Notebook untuk Generate Model
 
 ```bash
-jupyter notebook notebooks/01_eda_preprocessing.ipynb
+cd notebooks
+
+# Notebook 1: EDA + Preprocessing → cleaned_dataset.csv
+jupyter notebook 01_eda_preprocessing.ipynb
+
+# Notebook 2: AutoML + Benchmark → models/*.pkl
+jupyter notebook 02_pycaret_automl.ipynb
 ```
 
 > **Catatan:** Pastikan file `PRDECT-ID Dataset.csv` berada di direktori **root** proyek
-> (sejajar dengan folder `src/` dan `notebooks/`). Notebook membacanya lewat path `../PRDECT-ID Dataset.csv`.
+> (sejajar dengan folder `src/` dan `notebooks/`). Setelah kedua notebook dijalankan,
+> folder `models/` akan berisi file `.pkl` yang dibutuhkan oleh `app.py`.
 
 ---
 
@@ -263,6 +330,9 @@ data/
 | `PySastrawi` | 1.2+ | Stemming & stopword Bahasa Indonesia |
 | `emoji` | 2.0+ | Parsing & demojize emoji |
 | `tqdm` | 4.64+ | Progress bar `batch_clean()` |
+| `scikit-learn` | 1.2+ | Model klasifikasi (Ridge, LinearSVC, NB) |
+| `joblib` | 1.2+ | Simpan & muat model `.pkl` |
+| `gradio` | 4.0+ | Web UI interaktif (Hugging Face Spaces) |
 
 ---
 
