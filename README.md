@@ -1,16 +1,3 @@
----
-title: Analisis Sentimen dan Emosi Ulasan E-Commerce Indonesia
-emoji: 🛒
-colorFrom: green
-colorTo: blue
-sdk: gradio
-sdk_version: 5.20.1
-python_version: "3.10"
-app_file: app.py
-pinned: false
-license: mit
----
-
 # 🛍️ Analisis Sentimen & Emosi Ulasan E-Commerce Bahasa Indonesia
 
 > **Mata Kuliah:** Pengolahan Bahasa Alami (PBA) — 2026
