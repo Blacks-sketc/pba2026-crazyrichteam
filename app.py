@@ -473,8 +473,5 @@ demo = gr.Interface(
 # Indonesia adalah melalui custom CSS jika parameter tidak disediakan.
 # Namun kita juga bisa memasangnya pada komponen utama.
 
-demo.launch(
-        server_name="127.0.0.1",
-        share=False,
-        inbrowser=True,
-    )
+if __name__ == "__main__":
+    demo.launch(server_name="0.0.0.0", server_port=7860)
