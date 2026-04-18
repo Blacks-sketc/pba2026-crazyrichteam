@@ -26,8 +26,10 @@ emoji>=2.0.0               # Parsing & demojize emoji
 scikit-learn==1.7.0        # Model klasifikasi (Ridge, LinearSVC, NB, dsb.)
 joblib>=1.2.0              # Simpan & muat model .pkl
 
-# ── Gradio — Web App / HuggingFace Spaces ────────────────────────────────────
-gradio>=4.0.0              # UI interaktif untuk demo model NLP
+# ── HuggingFace Hub ────────────────────────────────────────────────────────────
+# Note: HF Spaces otomatis install gradio==4.31.0, jadi kita pin huggingface_hub
+# yang kompatibel dengan Gradio 4.31.0 (versi lama yang masih punya HfFolder)
+huggingface-hub==0.21.4    # Compatible dengan Gradio 4.31.0 (masih punya HfFolder)
 
 # ── Jupyter Notebook ──────────────────────────────────────────────────────────
 jupyter>=1.0.0
